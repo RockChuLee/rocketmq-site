@@ -57,7 +57,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2022-08-04T14:49:42+00:00">
+  <meta property="article:published_time" content="2022-08-11T02:35:56+00:00">
 
 
 
@@ -519,7 +519,7 @@
   <li>Upload your key to a public key server by <code class="language-plaintext highlighter-rouge">gpg --keyserver keys.openpgp.org --send-key &lt;your key id&gt;</code>. you can search your key after uploaded. (<code class="language-plaintext highlighter-rouge">your key id</code>’s string length is 8).</li>
   <li>Export your public key to a file by <code class="language-plaintext highlighter-rouge">gpg --armor --export &lt;your key id&gt; &gt;&gt; gpgapachekey.txt</code>.</li>
   <li>Get the key signed by other committers(Optional).</li>
-  <li>Add the key to the RocketMQ <a href="https://dist.apache.org/repos/dist/dev/rocketmq/KEYS">KEYS file</a>. ([KEYS file] managed by svn)</li>
+  <li>Append the key to both RocketMQ <a href="https://dist.apache.org/repos/dist/dev/rocketmq/KEYS">dev KEYS file</a> and <a href="https://dist.apache.org/repos/dist/release/rocketmq/KEYS">release KEYS file</a> using your preferred subversion clients.</li>
 </ul>
 
 <p><strong>Tips:</strong> If you have more than one key in your gpg, set the code signing key to <code class="language-plaintext highlighter-rouge">~/.gnupg/gpg.conf</code> as default key is recommended.</p>
@@ -583,7 +583,7 @@ Perform the following to generate and stage the artifacts:</p>
 
 <ol>
   <li><code class="language-plaintext highlighter-rouge">mvn clean release:clean</code></li>
-  <li><code class="language-plaintext highlighter-rouge">mvn release:prepare -Psigned_release -Darguments="-DskipTests"</code>, answer the correct release version(use the default, the version in pom, just enter), SCM release tag(use the default, the branch name, just enter), and the new development version(increate the version by 1.0, if you release 4.2.0, then the next version should be 4.3.0).</li>
+  <li><code class="language-plaintext highlighter-rouge">mvn release:prepare -Psigned_release -Darguments="-DskipTests"</code>, answer the correct release version(use the default, the version in pom, just enter), SCM release tag(use the default, the branch name, just enter), and the new development version(increase the version accordingly, following <a href="https://semver.org/">Semantics Versioning</a>).</li>
   <li><code class="language-plaintext highlighter-rouge">mvn -Psigned_release release:perform -Darguments="-DskipTests"</code>, generate the artifacts and push them to the <a href="https://repository.apache.org/#stagingRepositories">Nexus repo</a>. If you would like to perform a dry run first (without pushing the artifacts to the repo), add the arg -DdryRun=true.</li>
 </ol>
 
@@ -660,7 +660,7 @@ goto 4, after self-verify, continue 2.4</li>
     </ol>
 
     <ul>
-      <li>find 2 lastest commits who’s comments as bellow
+      <li>find the last two commits, commit messages of which match the following pattern:
         <blockquote>
           <p>des1: [maven-release-plugin] prepare release rocketmq-all-4.9.2]<br />
 des2: [maven-release-plugin] prepare for next development iteration]</p>
@@ -708,9 +708,9 @@ Be aware of the os version, for some dependency is os sensitive, such as netty t
   <li>check NOTICE, should have a notice for third-party dependency if necessary</li>
   <li>extract the zip and check if the binary version is correct</li>
   <li>verify the asc(PGP sign), SHA512</li>
-  <li>start nameserver and broker according to the quick-start</li>
+  <li>start name-server and broker according to the quick-start</li>
   <li>run clusterList command to see if the version is correct</li>
-  <li>make sure there is no nohup.out in the binary files</li>
+  <li>make sure there is no nohup.out and other irrelevant files in the binary artifact</li>
 </ul>
 
 <h4 id="42-check-list-for-source-release">4.2 check list for source release:</h4>
@@ -720,7 +720,7 @@ Be aware of the os version, for some dependency is os sensitive, such as netty t
   <li>check NOTICE, should have a notice for third-party dependency if necessary</li>
   <li>extract the zip and check if the source version is correct</li>
   <li>verify the asc(PGP sign),SHA512</li>
-  <li>build the source, start nameserver and broker according to the quick-start</li>
+  <li>build the source, start name-server and broker according to the quick-start</li>
   <li>run clusterList command to see if the version is correct</li>
 </ul>
 
